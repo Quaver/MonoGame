@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Name="MonoGame.Framework" Path="MonoGame.Framework" Type="Library" Platforms="Android,Angle,iOS,Linux,MacOS,Windows,WindowsGL,WindowsUniversal,Web,tvOS,PSVita,XBoxOne,Switch">
+<Project Name="MonoGame.Framework" Path="MonoGame.Framework" Type="Library" Platforms="Android,Angle,iOS,Linux,Gtk,MacOS,Windows,WindowsGL,WindowsUniversal,Web,tvOS,PSVita,XBoxOne,Switch">
   <!--
     Using Protobuild in your own project?  ProjectGuids are only in use here
     for backwards compatibility with existing users of MonoGame, and are not
@@ -12,6 +12,7 @@
   	<Platform Name="Angle">ECF3C8B9-0AAC-4C32-B184-FAE88F6244B5</Platform>
   	<Platform Name="iOS">DB8508BB-9849-4CC2-BC0F-8EB5DACB3C47</Platform>
   	<Platform Name="Linux">35253CE1-C864-4CD3-8249-4D1319748E8F</Platform>
+  	<Platform Name="Gtk">35253CE1-C864-4CD3-8249-4D1319748E8F</Platform>
   	<Platform Name="MacOS">36C538E6-C32A-4A8D-A39C-566173D7118E</Platform>
   	<Platform Name="Windows">7DE47032-A904-4C29-BD22-2D235E8D91BA</Platform>
   	<Platform Name="WindowsGL">6D75E618-19CA-4C51-9546-F10965FBC0B8</Platform>
@@ -33,12 +34,14 @@
     <RootNamespace>Microsoft.Xna.Framework</RootNamespace>
 	<RemoveXnaAssembliesOnWP8>false</RemoveXnaAssembliesOnWP8>
     <PlatformSpecificOutputFolder>True</PlatformSpecificOutputFolder>
+    <ResolveNuGetPackages>False</ResolveNuGetPackages>
 
     <CustomDefinitions>
       <Platform Name="Android">TRACE;ANDROID;GLES;OPENGL;OPENAL</Platform>
       <Platform Name="iOS">IOS;GLES;OPENGL;OPENAL</Platform>
       <Platform Name="tvOS">IOS;TVOS;GLES;OPENGL;OPENAL</Platform>
-      <Platform Name="Linux">TRACE;LINUX;OPENGL;OPENAL;DESKTOPGL;SUPPORTS_EFX</Platform>
+      <Platform Name="Linux">TRACE;Linux,Gtk;OPENGL;OPENAL;DESKTOPGL;SUPPORTS_EFX</Platform>
+      <Platform Name="Gtk">TRACE;Linux,Gtk;OPENGL;OPENAL;DESKTOPGL;SUPPORTS_EFX;GTK</Platform>
       <Platform Name="MacOS">MONOMAC;OPENGL;OPENAL;DESKTOPGL;SUPPORTS_EFX</Platform>
       <Platform Name="WindowsGL">TRACE;WINDOWS;DESKTOPGL;SUPPORTS_EFX</Platform>
       <Platform Name="Windows">TRACE;WINDOWS;DIRECTX;WINDOWS_MEDIA_SESSION</Platform>
@@ -51,6 +54,9 @@
     <FrameworkVersions>
       <Platform Name="Android">
         <Version>v4.4</Version>
+      </Platform>
+      <Platform Name="Gtk">
+        <Version>v4.7.1</Version>
       </Platform>
     </FrameworkVersions>
 
@@ -70,16 +76,16 @@
       <Platforms>Web</Platforms>
     </Uses>
     <Uses Name="_XNADesignProvided">
-      <Platforms>Windows,WindowsGL,Linux,MacOS</Platforms>
+      <Platforms>Windows,WindowsGL,Linux,Gtk,MacOS</Platforms>
     </Uses>
     <Uses Name="NVorbis">
-      <Platforms>WindowsGL,Linux,MacOS</Platforms>
+      <Platforms>WindowsGL,Linux,Gtk,MacOS</Platforms>
     </Uses>
     <Recommends Name="DirectXGraphics">
       <Platforms>Windows</Platforms>
     </Recommends>
     <Recommends Name="OpenGLGraphics">
-      <Platforms>Linux,MacOS</Platforms>
+      <Platforms>Linux,Gtk,MacOS</Platforms>
     </Recommends>
   </Dependencies>
 
@@ -87,16 +93,16 @@
 
     <!-- Graphics APIs -->
     <Service Name="ANGLEGraphics">
-      <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION;WINDOWS;MONOMAC;LINUX</RemoveDefine>
+      <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION;WINDOWS;MONOMAC;Linux,Gtk</RemoveDefine>
       <AddDefine>OPENGL;OPENAL;GLES;ANGLE</AddDefine>
-      <Platforms>Windows,MacOS,Linux,Angle</Platforms>
+      <Platforms>Windows,MacOS,Linux,Gtk,Angle</Platforms>
       <Conflicts>OpenGLGraphics,DirectXGraphics,WebGraphics</Conflicts>
       <Requires>OpenALAudio,_GLCompatible</Requires>
     </Service>
     <Service Name="OpenGLGraphics">
       <RemoveDefine>DIRECTX;WINDOWS_MEDIA_SESSION</RemoveDefine>
       <AddDefine>OPENGL;OPENAL</AddDefine>
-      <Platforms>iOS,MacOS,Linux,Windows,WindowsGL,Android,tvOS</Platforms>
+      <Platforms>iOS,MacOS,Linux,Gtk,Windows,WindowsGL,Android,tvOS</Platforms>
       <Conflicts>ANGLEGraphics,DirectXGraphics,WebGraphics</Conflicts>
       <Requires>OpenALAudio,_GLCompatible</Requires>
     </Service>
@@ -113,7 +119,7 @@
 
     <!-- Audio APIs -->
     <Service Name="OpenALAudio">
-      <Platforms>Angle,iOS,Linux,Windows,WindowsGL,MacOS,Android,tvOS</Platforms>
+      <Platforms>Angle,iOS,Linux,Gtk,Windows,WindowsGL,MacOS,Android,tvOS</Platforms>
       <Conflicts>XAudioAudio,WebAudio</Conflicts>
     </Service>
     <Service Name="XAudioAudio">
@@ -125,7 +131,7 @@
       <Conflicts>OpenALAudio,XAudioAudio</Conflicts>
     </Service>
     <Service Name="NVorbis">
-      <Platforms>WindowsGL,Linux,MacOS</Platforms>
+      <Platforms>WindowsGL,Linux,Gtk,MacOS</Platforms>
     </Service>
 
     <!-- Base supporting features -->
@@ -145,7 +151,7 @@
         <Platforms>Android</Platforms>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.DesktopGL.cs">
-        <Platforms>WindowsGL,Linux</Platforms>
+        <Platforms>WindowsGL,Linux,Gtk</Platforms>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.iOS.cs">
         <Platforms>iOS</Platforms>
@@ -170,7 +176,7 @@
     </Compile>
 
     <None Include="..\ThirdParty\Dependencies\MonoGame.Framework.dll.config">
-      <Platforms>WindowsGL,Linux,MacOS</Platforms>
+      <Platforms>WindowsGL,Linux,Gtk,MacOS</Platforms>
       <Link>MonoGame.Framework.dll.config</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -266,7 +272,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GamePlatform.cs" />
     <Compile Include="GamePlatform.Desktop.cs">
-      <Platforms>Angle,Linux,MacOS,Windows,WindowsGL,WindowsUniversal</Platforms>
+      <Platforms>Angle,Linux,Gtk,MacOS,Windows,WindowsGL,WindowsUniversal</Platforms>
     </Compile>
     <Compile Include="GamePlatform.Mobile.cs">
       <Platforms>Android,iOS,Web,tvOS</Platforms>
@@ -298,17 +304,17 @@
     <Compile Include="Rectangle.cs" />
     <Compile Include="ReusableItemList.cs" />
     <Compile Include="TextInputEventArgs.cs">
-      <Platforms>Angle,Linux,MacOS,Windows,WindowsGL,WindowsUniversal</Platforms>
+      <Platforms>Angle,Linux,Gtk,MacOS,Windows,WindowsGL,WindowsUniversal</Platforms>
     </Compile>
     <Compile Include="Threading.cs">
-      <Platforms>Android,Angle,iOS,Linux,MacOS,WindowsGL,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,Gtk,MacOS,WindowsGL,tvOS</Platforms>
     </Compile>
     <Compile Include="TitleContainer.cs" />
     <Compile Include="TitleContainer.Android.cs">
       <Platforms>Android</Platforms>
     </Compile>
     <Compile Include="TitleContainer.Desktop.cs">
-      <Platforms>Angle,Linux,Windows,WindowsGL,Web,MacOS</Platforms>
+      <Platforms>Angle,Linux,Gtk,Windows,WindowsGL,Web,MacOS</Platforms>
     </Compile>
     <Compile Include="TitleContainer.MacOS.cs">
       <Platforms>iOS,tvOS</Platforms>
@@ -347,7 +353,7 @@
       <Services>OpenALAudio</Services>
     </Compile>
 	<Compile Include="Audio\OggStream.cs">
-      <Platforms>WindowsGL,Linux,MacOS</Platforms>
+      <Platforms>WindowsGL,Linux,Gtk,MacOS</Platforms>
     </Compile>
     <Compile Include="Audio\OpenAL.cs">
       <Services>OpenALAudio</Services>
@@ -409,7 +415,7 @@
     <Compile Include="Audio\Xact\VolumeEvent.cs" />
     <Compile Include="Audio\Xact\WaveBank.cs" />
     <Compile Include="Audio\Xact\WaveBank.Default.cs">	
-      <Platforms>Android,Angle,iOS,Linux,MacOS,Windows,WindowsGL,WindowsUniversal,Web,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,Gtk,MacOS,Windows,WindowsGL,WindowsUniversal,Web,tvOS</Platforms>
     </Compile>
     <Compile Include="Audio\Xact\XactClip.cs" />
     <Compile Include="Audio\Xact\XactHelpers.cs" />
@@ -490,7 +496,7 @@
     <Compile Include="Content\ContentReaders\VertexBufferReader.cs" />
     <Compile Include="Content\ContentReaders\VertexDeclarationReader.cs"/>
     <Compile Include="Content\ContentReaders\VideoReader.cs">
-      <ExcludePlatforms>Angle,Linux,WindowsGL,Web,tvOS</ExcludePlatforms>
+      <ExcludePlatforms>Angle,Linux,Gtk,WindowsGL,Web,tvOS</ExcludePlatforms>
     </Compile>
     <Compile Include="Content\ContentSerializerAttribute.cs" />
     <Compile Include="Content\ContentSerializerCollectionItemNameAttribute.cs" />
@@ -501,7 +507,7 @@
     <Compile Include="Content\ContentTypeReaderManager.cs" />
     <Compile Include="Content\LzxDecoder.cs" />
     <Compile Include="Content\ResourceContentManager.cs">
-      <Platforms>Angle,Android,iOS,Linux,Windows,WindowsGL,tvOS</Platforms>
+      <Platforms>Angle,Android,iOS,Linux,Gtk,Windows,WindowsGL,tvOS</Platforms>
     </Compile>
 
 
@@ -513,10 +519,13 @@
     <Compile Include="Graphics\DeviceNotResetException.cs" />
     <Compile Include="GraphicsDeviceInformation.cs" />
     <Compile Include="GraphicsDeviceManager.cs">
-		<Platforms>Windows,WindowsGL,Linux,WindowsUniversal,Web,MacOS</Platforms>
+		<Platforms>Windows,WindowsGL,Linux,Gtk,WindowsUniversal,Web,MacOS</Platforms>
     </Compile>
     <Compile Include="GraphicsDeviceManager.SDL.cs">
       <Platforms>WindowsGL,Linux,MacOS</Platforms>
+    </Compile>
+    <Compile Include="GraphicsDeviceManager.Gtk.cs">
+      <Platforms>Gtk</Platforms>
     </Compile>
     <Compile Include="GraphicsDeviceManager.WinRT.cs">
 		<Platforms>WindowsUniversal</Platforms>
@@ -565,13 +574,13 @@
     </Compile>
     <Compile Include="Graphics\Effect\SpriteEffect.cs" />
     <Compile Include="Graphics\GraphicsAdapter.cs">
-      <ExcludePlatforms>Android,Angle,iOS,Linux,MacOS,WindowsGL,tvOS,Web</ExcludePlatforms>
+      <ExcludePlatforms>Android,Angle,iOS,Linux,Gtk,MacOS,WindowsGL,tvOS,Web</ExcludePlatforms>
     </Compile>
     <Compile Include="Graphics\GraphicsAdapter.DirectX.cs">
       <Services>DirectXGraphics</Services>
     </Compile>
     <Compile Include="Graphics\GraphicsAdapter.Legacy.cs">
-      <Platforms>Android,Angle,iOS,Linux,MacOS,WindowsGL,tvOS,Web</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,Gtk,MacOS,WindowsGL,tvOS,Web</Platforms>
     </Compile>
     <Compile Include="Graphics\GraphicsCapabilities.cs" />
     <Compile Include="Graphics\GraphicsCapabilities.DirectX.cs">
@@ -585,6 +594,9 @@
     </Compile>
     <Compile Include="Graphics\GraphicsContext.SDL.cs">
       <Platforms>WindowsGL,Linux,MacOS</Platforms>
+    </Compile>
+    <Compile Include="Graphics\GraphicsContext.Gtk.cs">
+      <Platforms>Gtk</Platforms>
     </Compile>
     <Compile Include="Graphics\GraphicsDebug.cs" />
     <Compile Include="Graphics\GraphicsDebug.DirectX.cs">
@@ -638,13 +650,16 @@
       <Services>WebGraphics</Services>
     </Compile>
     <Compile Include="Graphics\OpenGL.cs">
-      <Platforms>WindowsGL,Linux,iOS,MacOS,Android,Ouya,tvOS</Platforms>
+      <Platforms>WindowsGL,Linux,Gtk,iOS,MacOS,Android,Ouya,tvOS</Platforms>
     </Compile>
     <Compile Include="Graphics\OpenGL.Common.cs">
-      <Platforms>WindowsGL,Linux,Android,Ouya</Platforms>
+      <Platforms>WindowsGL,Linux,Gtk,Android,Ouya</Platforms>
     </Compile>
     <Compile Include="Graphics\OpenGL.SDL.cs">
       <Platforms>WindowsGL,Linux,MacOS</Platforms>
+    </Compile>
+    <Compile Include="Graphics\OpenGL.Gtk.cs">
+      <Platforms>Gtk</Platforms>
     </Compile>
     <Compile Include="Graphics\OpenGL.Android.cs">
       <Platforms>Android,Ouya</Platforms>
@@ -737,7 +752,7 @@
       <Services>WebGraphics</Services>
     </Compile>
     <Compile Include="Graphics\Shader\ShaderProgramCache.cs">
-      <Platforms>Android,Angle,iOS,Linux,MacOS,WindowsGL,tvOS</Platforms>
+      <Platforms>Android,Angle,iOS,Linux,Gtk,MacOS,WindowsGL,tvOS</Platforms>
     </Compile>
     <Compile Include="Graphics\Shader\ShaderStage.cs" />
     <Compile Include="Graphics\SpriteBatch.cs" />
@@ -913,13 +928,16 @@
     <Compile Include="Graphics\Vertices\VertexPositionTexture.cs" />
     <Compile Include="Graphics\Viewport.cs" />
     <Compile Include="Graphics\WindowInfo.SDL.cs">
-      <Platforms>WindowsGL,Linux,MacOS</Platforms>
+      <Platforms>WindowsGL,Linux,Gtk,MacOS</Platforms>
     </Compile>
     
     <!-- Microsoft.Xna.Framework.Input -->
     <Compile Include="Input\Buttons.cs" />
     <Compile Include="Input\ButtonState.cs" />
     <Compile Include="Input\GamePad.cs" />
+    <Compile Include="Input\GamePad.Default.cs">
+      <Platforms>Gtk</Platforms>
+    </Compile>
     <Compile Include="Input\GamePad.Android.cs">
       <Platforms>Android</Platforms>
     </Compile>
@@ -954,7 +972,7 @@
     <Compile Include="Input\JoystickHat.cs" />
     <Compile Include="Input\JoystickState.cs" />
     <Compile Include="Input\Joystick.Default.cs">
-      <Platforms>Angle,Android,Windows,WindowsUniversal,iOS,tvOS</Platforms>
+      <Platforms>Angle,Android,Windows,WindowsUniversal,iOS,tvOS,Gtk</Platforms>
     </Compile>
     <Compile Include="Input\Joystick.SDL.cs">
       <Platforms>Linux,WindowsGL,MacOS</Platforms>
@@ -1078,7 +1096,7 @@
       <Platforms>Windows</Platforms>
     </Compile>
     <Compile Include="Media\MediaPlayer.Default.cs">
-      <Platforms>Angle,WindowsGL,Linux,MacOS,iOS,Android,Web,tvOS</Platforms>
+      <Platforms>Angle,WindowsGL,Linux,Gtk,MacOS,iOS,Android,Web,tvOS</Platforms>
     </Compile>
     <Compile Include="Media\MediaQueue.cs" />
     <Compile Include="Media\MediaSource.cs" />
@@ -1101,7 +1119,7 @@
         <Platforms>iOS,tvOS</Platforms>
     </Compile>
     <Compile Include="Media\Song.NVorbis.cs">
-        <Platforms>WindowsGL,Linux,MacOS</Platforms>
+        <Platforms>WindowsGL,Linux,Gtk,MacOS</Platforms>
     </Compile>
     <Compile Include="Media\Song.WMS.cs">
         <Platforms>Windows</Platforms>
@@ -1111,7 +1129,7 @@
     </Compile>
     <Compile Include="Media\VideoSoundtrackType.cs" />
     <Compile Include="Media\Video.cs">
-      <ExcludePlatforms>Angle,Linux,WindowsGL,Web,tvOS</ExcludePlatforms>
+      <ExcludePlatforms>Angle,Linux,Gtk,WindowsGL,Web,tvOS</ExcludePlatforms>
     </Compile>
     <Compile Include="Media\Video.IOS.cs">
         <Platforms>iOS</Platforms>
@@ -1126,7 +1144,7 @@
         <Platforms>Windows</Platforms>
     </Compile>
     <Compile Include="Media\VideoPlayer.cs">
-      <ExcludePlatforms>Angle,Linux,WindowsGL,Web,tvOS</ExcludePlatforms>
+      <ExcludePlatforms>Angle,Linux,Gtk,WindowsGL,Web,tvOS</ExcludePlatforms>
     </Compile>
     <Compile Include="Media\VideoPlayer.IOS.cs">
         <Platforms>iOS</Platforms>
@@ -1176,10 +1194,10 @@
 
     <!-- Utility Classes -->
     <Compile Include="Utilities\AssemblyHelper.cs">
-      <Platforms>Angle,Linux,MacOS,Windows,WindowsGL</Platforms>
+      <Platforms>Angle,Linux,Gtk,MacOS,Windows,WindowsGL</Platforms>
     </Compile>
     <Compile Include="Utilities\CurrentPlatform.cs">
-      <Platforms>Windows,MacOS,WindowsGL,Linux</Platforms>
+      <Platforms>Windows,MacOS,WindowsGL,Linux,Gtk</Platforms>
     </Compile>
     <Compile Include="Utilities\Hash.cs" />
     <Compile Include="Utilities\FileHelpers.cs" />
@@ -1188,7 +1206,7 @@
       <Platforms>Android,iOS,WindowsUniversal,tvOS</Platforms>
     </Compile>
     <Compile Include="Utilities\ReflectionHelpers.Legacy.cs" >
-      <Platforms>Angle,Linux,MacOS,Windows,WindowsGL,Web</Platforms>
+      <Platforms>Angle,Linux,Gtk,MacOS,Windows,WindowsGL,Web</Platforms>
     </Compile>
     <Compile Include="Utilities\Lz4Stream\Lz4DecoderStream.cs" />
     <Compile Include="Utilities\LzxStream\LzxDecoderStream.cs" />
@@ -1251,9 +1269,21 @@
     </Compile>
 
 
+    <!-- Gtk Platform -->
+    <Compile Include="Gtk\GtkGamePlatform.cs">
+      <Platforms>Gtk</Platforms>
+    </Compile>
+    <Compile Include="Gtk\GtkGameWindow.cs">
+      <Platforms>Gtk</Platforms>
+    </Compile>
+    <Compile Include="Input\KeyboardUtil.Gtk.cs">
+      <Platforms>Gtk</Platforms>
+    </Compile>
+
+
     <!-- Common Desktop Platform -->
     <Compile Include="Utilities\FuncLoader.Desktop.cs">
-      <Platforms>Angle,Linux,WindowsGL,MacOS</Platforms>
+      <Platforms>Angle,Linux,Gtk,WindowsGL,MacOS</Platforms>
     </Compile>
     <Compile Include="Utilities\FuncLoader.Android.cs">
       <Platforms>Android</Platforms>
@@ -1275,10 +1305,10 @@
     </Compile>
 	 <EmbeddedResource Include="MonoGame.bmp">
       <LogicalName>MonoGame.bmp</LogicalName>
-      <Platforms>Angle,Linux,WindowsGL,MacOS</Platforms>
+      <Platforms>Angle,Linux,Gtk,WindowsGL,MacOS</Platforms>
     </EmbeddedResource>
     <EmbeddedResource Include="..\ThirdParty\SDL_GameControllerDB\gamecontrollerdb.txt">
-      <Platforms>Angle,Linux,WindowsGL,MacOS</Platforms>
+      <Platforms>Angle,Linux,Gtk,WindowsGL,MacOS</Platforms>
       <LogicalName>gamecontrollerdb.txt</LogicalName>
     </EmbeddedResource>
 

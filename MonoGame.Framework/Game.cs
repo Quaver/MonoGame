@@ -323,6 +323,10 @@ namespace Microsoft.Xna.Framework
         {
             _shouldExit = true;
             _suppressDraw = true;
+
+#if GTK
+            OpenALSoundController.DestroyInstance();
+#endif
         }
 
         public void ResetElapsedTime()
