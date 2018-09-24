@@ -52,7 +52,7 @@ internal static class Sdl
     public static int Minor;
     public static int Patch;
 
-    private static unsafe string GetString(IntPtr handle)
+    public static unsafe string GetString(IntPtr handle)
     {
         if (handle == IntPtr.Zero)
             return "";
@@ -161,6 +161,8 @@ internal static class Sdl
         public Joystick.DeviceEvent JoystickDevice;
         [FieldOffset(0)]
         public GameController.DeviceEvent ControllerDevice;
+        [FieldOffset(0)]
+        public Drop.DropEvent Drop;
     }
 
     public struct Rectangle
@@ -169,6 +171,18 @@ internal static class Sdl
         public int Y;
         public int Width;
         public int Height;
+    }
+
+    public static class Drop
+    {
+        [StructLayout(LayoutKind.Sequential)]
+        public unsafe struct DropEvent
+        {
+            public EventType Type;
+            public uint Timestamp;
+            public IntPtr File;
+            public uint WindowId;
+        }
     }
 
     public struct Version
