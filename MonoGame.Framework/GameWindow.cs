@@ -88,9 +88,9 @@ namespace Microsoft.Xna.Framework {
 		public event EventHandler<EventArgs> ClientSizeChanged;
 		public event EventHandler<EventArgs> OrientationChanged;
 		public event EventHandler<EventArgs> ScreenDeviceNameChanged;
+	    public event EventHandler<string> FileDropped;
 
 #if WINDOWS || WINDOWS_UAP || DESKTOPGL|| ANGLE
-
         /// <summary>
 		/// Use this event to retrieve text for objects like textbox's.
 		/// This event is not raised by noncharacter keys.
@@ -130,7 +130,7 @@ namespace Microsoft.Xna.Framework {
 		protected void OnDeactivated ()
 		{
 		}
-         
+
 		protected void OnOrientationChanged ()
 		{
             EventHelpers.Raise(this, OrientationChanged, EventArgs.Empty);
@@ -145,14 +145,23 @@ namespace Microsoft.Xna.Framework {
             EventHelpers.Raise(this, ScreenDeviceNameChanged, EventArgs.Empty);
 		}
 
+	    protected void OnFileDropped(object sender, string arg)
+	    {
+	        var ev = FileDropped;
+
+	        if (ev != null)
+	            ev.Invoke(sender, arg);
+	    }
+
 #if WINDOWS || WINDOWS_UAP || DESKTOPGL || ANGLE
-		protected void OnTextInput(object sender, TextInputEventArgs e)
+        protected void OnTextInput(object sender, TextInputEventArgs e)
 		{
             EventHelpers.Raise(this, TextInput, e);
 		}
 #endif
 
 		protected internal abstract void SetSupportedOrientations (DisplayOrientation orientations);
+
 		protected abstract void SetTitle (string title);
 
 #if DIRECTX && WINDOWS

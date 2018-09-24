@@ -194,6 +194,10 @@ namespace Microsoft.Xna.Framework
                         }
                     }
                 }
+                else if (ev.Type == Sdl.EventType.DropFile)
+                {
+                    _view.CallFileDrop(Sdl.GetString(ev.Drop.File));
+                }
                 else if (ev.Type == Sdl.EventType.WindowEvent)
                 {
                     if (ev.Window.WindowID == _view.Id)
