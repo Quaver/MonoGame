@@ -30,10 +30,6 @@
     <DefineConstants>OPENGL;OPENAL;XNADESIGNPROVIDED;TRACE;LINUX;DESKTOPGL;SUPPORTS_EFX;NETSTANDARD</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Runtime.Serialization" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="BoundingBox.cs" />
     <Compile Include="BoundingFrustum.cs" />
     <Compile Include="BoundingSphere.cs" />
