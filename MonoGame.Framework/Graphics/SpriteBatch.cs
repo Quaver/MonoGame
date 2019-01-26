@@ -22,6 +22,7 @@ namespace Microsoft.Xna.Framework.Graphics
 		RasterizerState _rasterizerState;		
 		Effect _effect;
         bool _beginCalled;
+	    public bool BeginCalled => _beginCalled;
 
 		Effect _spriteEffect;
 	    readonly EffectParameter _matrixTransform;
