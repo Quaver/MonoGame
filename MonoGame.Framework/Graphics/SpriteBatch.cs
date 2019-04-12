@@ -4,6 +4,7 @@
 
 using System;
 using System.Text;
+using MonoGame.Extended;
 
 namespace Microsoft.Xna.Framework.Graphics
 {
@@ -383,8 +384,31 @@ namespace Microsoft.Xna.Framework.Graphics
         /// <param name="origin">Center of the rotation. 0,0 by default.</param>
         /// <param name="effects">Modificators for drawing. Can be combined.</param>
         /// <param name="layerDepth">A depth of the layer of this sprite.</param>
+        public void Draw(Texture2D texture,
+            Rectangle destinationRectangle,
+            Rectangle? sourceRectangle,
+            Color color,
+            float rotation,
+            Vector2 origin,
+            SpriteEffects effects,
+            float layerDepth)
+        {
+            Draw(texture, (RectangleF) destinationRectangle, sourceRectangle, color, rotation, origin, effects, layerDepth);
+        }
+
+        /// <summary>
+        /// Submit a sprite for drawing in the current batch.
+        /// </summary>
+        /// <param name="texture">A texture.</param>
+        /// <param name="destinationRectangle">The drawing bounds on screen.</param>
+        /// <param name="sourceRectangle">An optional region on the texture which will be rendered. If null - draws full texture.</param>
+        /// <param name="color">A color mask.</param>
+        /// <param name="rotation">A rotation of this sprite.</param>
+        /// <param name="origin">Center of the rotation. 0,0 by default.</param>
+        /// <param name="effects">Modificators for drawing. Can be combined.</param>
+        /// <param name="layerDepth">A depth of the layer of this sprite.</param>
 		public void Draw (Texture2D texture,
-			Rectangle destinationRectangle,
+			RectangleF destinationRectangle,
 			Rectangle? sourceRectangle,
 			Color color,
 			float rotation,
