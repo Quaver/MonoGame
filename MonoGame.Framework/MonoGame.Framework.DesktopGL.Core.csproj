@@ -706,7 +706,9 @@
       <Services>NVorbis</Services>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Extended" Version="1.1.0" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="..\ThirdParty\Dependencies\openal-soft\Windows\x86\soft_oal.dll" PackagePath="runtimes\win-x86\native" Visible="false" />
     <Content Include="..\ThirdParty\Dependencies\SDL\Windows\x86\SDL2.dll" PackagePath="runtimes\win-x86\native" Visible="false" />
