@@ -9,6 +9,7 @@
 This package provides you with MonoGame Framework that uses OpenGL for rendering and works on Windows, Linux and MacOS.</Description>
     <PackageTags>monogame;.net core;core;.net standard;standard;desktopgl</PackageTags>
     <PackageId>MonoGame.Framework.DesktopGL</PackageId>
+    <Version>3.6.0.1625</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -150,13 +151,13 @@ This package provides you with MonoGame Framework that uses OpenGL for rendering
   <ItemGroup>
     <Content Include="..\ThirdParty\Dependencies\openal-soft\Windows\x86\soft_oal.dll" PackagePath="runtimes\win-x86\native" Visible="false" />
     <Content Include="..\ThirdParty\Dependencies\SDL\Windows\x86\SDL2.dll" PackagePath="runtimes\win-x86\native" Visible="false" />
-    
+
     <Content Include="..\ThirdParty\Dependencies\openal-soft\Windows\x64\soft_oal.dll" PackagePath="runtimes\win-x64\native" Visible="false" />
     <Content Include="..\ThirdParty\Dependencies\SDL\Windows\x64\SDL2.dll" PackagePath="runtimes\win-x64\native" Visible="false" />
-    
+
     <Content Include="..\ThirdParty\Dependencies\openal-soft\Linux\x64\libopenal.so.1" PackagePath="runtimes\linux-x64\native" Visible="false" />
     <Content Include="..\ThirdParty\Dependencies\SDL\Linux\x64\libSDL2-2.0.so.0" PackagePath="runtimes\linux-x64\native" Visible="false" />
-    
+
     <Content Include="..\ThirdParty\Dependencies\openal-soft\MacOS\Universal\libopenal.1.dylib" PackagePath="runtimes\osx\native" Visible="false" />
     <Content Include="..\ThirdParty\Dependencies\SDL\MacOS\Universal\libSDL2-2.0.0.dylib" PackagePath="runtimes\osx\native" Visible="false" />
 
