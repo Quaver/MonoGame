@@ -380,7 +380,9 @@ internal static class Sdl
         {
             public Version version;
             public SysWMType subsystem;
-            public IntPtr window;
+            public IntPtr window; // Pointer to wl_display on Wayland
+
+            public IntPtr wl_surface; // Only on Wayland
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
