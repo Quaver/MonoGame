@@ -56,6 +56,24 @@ namespace Microsoft.Xna.Framework
         private bool _shouldExit;
         private bool _suppressDraw;
 
+        // If set to true, enables Wayland VSync on the SDL game platform.
+        public bool WaylandVsync
+        {
+            get
+            {
+                if (Platform is SdlGamePlatform sdlGamePlatform)
+                    return sdlGamePlatform.WaylandVsync;
+
+                return false;
+            }
+
+            set
+            {
+                if (Platform is SdlGamePlatform sdlGamePlatform)
+                    sdlGamePlatform.WaylandVsync = value;
+            }
+        }
+
         partial void PlatformConstruct();
 
         public Game()

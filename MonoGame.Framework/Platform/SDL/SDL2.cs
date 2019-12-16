@@ -152,6 +152,8 @@ internal static class Sdl
         [FieldOffset(0)]
         public Mouse.MotionEvent Motion;
         [FieldOffset(0)]
+        public Mouse.ButtonEvent Button;
+        [FieldOffset(0)]
         public Keyboard.TextEditingEvent Edit;
         [FieldOffset(0)]
         public Keyboard.TextInputEvent Text;
@@ -378,7 +380,9 @@ internal static class Sdl
         {
             public Version version;
             public SysWMType subsystem;
-            public IntPtr window;
+            public IntPtr window; // Pointer to wl_display on Wayland
+
+            public IntPtr wl_surface; // Only on Wayland
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
@@ -641,13 +645,22 @@ internal static class Sdl
     public static class Mouse
     {
         [Flags]
-        public enum Button
+        public enum ButtonMask
         {
             Left = 1 << 0,
             Middle = 1 << 1,
             Right = 1 << 2,
             X1Mask = 1 << 3,
             X2Mask = 1 << 4
+        }
+
+        public enum Button
+        {
+            Left = 1,
+            Middle = 2,
+            Right = 3,
+            X1 = 4,
+            X2 = 5
         }
 
         public enum SystemCursor
@@ -681,6 +694,21 @@ internal static class Sdl
             public int Y;
             public int Xrel;
             public int Yrel;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ButtonEvent
+        {
+            public EventType Type;
+            public uint Timestamp;
+            public uint WindowID;
+            public uint Which;
+            public byte Button;
+            public byte State;
+            public byte Clicks;
+            private byte _padding3;
+            public int X;
+            public int Y;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -718,11 +746,11 @@ internal static class Sdl
         public static d_sdl_freecursor FreeCursor = FuncLoader.LoadFunction<d_sdl_freecursor>(NativeLibrary, "SDL_FreeCursor");
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate Button d_sdl_getglobalmousestate(out int x, out int y);
+        public delegate ButtonMask d_sdl_getglobalmousestate(out int x, out int y);
         public static d_sdl_getglobalmousestate GetGlobalState = FuncLoader.LoadFunction<d_sdl_getglobalmousestate>(NativeLibrary, "SDL_GetGlobalMouseState");
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        public delegate Button d_sdl_getmousestate(out int x, out int y);
+        public delegate ButtonMask d_sdl_getmousestate(out int x, out int y);
         public static d_sdl_getmousestate GetState = FuncLoader.LoadFunction<d_sdl_getmousestate>(NativeLibrary, "SDL_GetMouseState");
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
