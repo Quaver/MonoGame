@@ -147,7 +147,7 @@ This package provides you with MonoGame Framework that uses OpenGL for rendering
     <EmbeddedResource Include="MonoGame.bmp">
       <LogicalName>MonoGame.bmp</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\ThirdParty\SDL_GameControllerDB\gamecontrollerdb.txt">
+    <EmbeddedResource Include="..\gamecontrollerdb\gamecontrollerdb.txt">
       <LogicalName>gamecontrollerdb.txt</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
