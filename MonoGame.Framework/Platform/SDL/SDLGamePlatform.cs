@@ -42,11 +42,11 @@ namespace Microsoft.Xna.Framework
         private static extern int dlclose(IntPtr handle);
 
         // libwayland-client stuff for Wayland V-Sync.
-        [DllImport("wayland-client")]
+        [DllImport("libwayland-client.so.0")]
         private static extern IntPtr wl_proxy_marshal_constructor(IntPtr proxy, uint opcode, IntPtr _interface, IntPtr zero);
-        [DllImport("wayland-client")]
+        [DllImport("libwayland-client.so.0")]
         private static extern int wl_proxy_add_listener(IntPtr proxy, IntPtr implementation, IntPtr data);
-        [DllImport("wayland-client")]
+        [DllImport("libwayland-client.so.0")]
         private static extern void wl_proxy_destroy(IntPtr proxy);
 
         private IntPtr _libwayland_client_handle;
@@ -139,7 +139,7 @@ namespace Microsoft.Xna.Framework
                         // Get pointer to wl_surface and the wl_callback_interface to be able to request a frame callback.
                         _wl_surface = sys.wl_surface;
 
-                        _libwayland_client_handle = dlopen("libwayland-client.so", 1);
+                        _libwayland_client_handle = dlopen("libwayland-client.so.0", 1);
                         if (_libwayland_client_handle != IntPtr.Zero)
                             _wl_callback_interface = dlsym(_libwayland_client_handle, "wl_callback_interface");
                     }
