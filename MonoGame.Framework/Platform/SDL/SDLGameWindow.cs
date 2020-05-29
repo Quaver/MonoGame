@@ -307,6 +307,10 @@ namespace Microsoft.Xna.Framework
 
         public void CallFileDrop(string filepath)
         {
+            // If e is a file:// URI (for example, on Wayland), it needs to be converted to a local path. If it's
+            // already a local path, this function leaves it as is.
+            filepath = new Uri(filepath).LocalPath;
+
             OnFileDropped(this, filepath);
         }
 
