@@ -304,6 +304,32 @@ internal static class Sdl
     public delegate int d_sdl_sethint(string name, string value);
     public static d_sdl_sethint SetHint = FuncLoader.LoadFunction<d_sdl_sethint>(NativeLibrary, "SDL_SetHint");
 
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate void d_sdl_free(IntPtr mem);
+    private static d_sdl_free SDL_free = FuncLoader.LoadFunction<d_sdl_free>(NativeLibrary, "SDL_free");
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate IntPtr d_sdl_getclipboardtext();
+    private static d_sdl_getclipboardtext SDL_GetClipboardText = FuncLoader.LoadFunction<d_sdl_getclipboardtext>(NativeLibrary, "SDL_GetClipboardText");
+
+    public static string GetClipboardText()
+    {
+        var handle = GetError(SDL_GetClipboardText());
+        var rv = InteropHelpers.Utf8ToString(handle);
+        SDL_free(handle);
+        return rv;
+    }
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    private delegate int d_sdl_setclipboardtext(ref byte text);
+    private static d_sdl_setclipboardtext SDL_SetClipboardText = FuncLoader.LoadFunction<d_sdl_setclipboardtext>(NativeLibrary, "SDL_SetClipboardText");
+
+    public static void SetClipboardText(string text)
+    {
+        var bytes = Encoding.UTF8.GetBytes(text);
+        GetError(SDL_SetClipboardText(ref bytes[0]));
+    }
+
     public static class Window
     {
         public const int PosUndefined = 0x1FFF0000;
