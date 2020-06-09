@@ -1052,5 +1052,27 @@ namespace Microsoft.Xna.Framework
                 return object.Equals(Item, ((AddJournalEntry<T>)obj).Item);
             }
         }
+
+        /// <summary>
+        ///     Gets the clipboard contents if Platform is SDL.
+        /// </summary>
+        /// <returns></returns>
+        public string GetClipboardText()
+        {
+            if (Platform is SdlGamePlatform)
+                return Sdl.GetClipboardText();
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        ///     Sets the clipboard contents if Platform is SDL.
+        /// </summary>
+        /// <returns></returns>
+        public void SetClipboardText(string text)
+        {
+            if (Platform is SdlGamePlatform)
+                Sdl.SetClipboardText(text);
+        }
     }
 }
