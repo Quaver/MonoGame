@@ -92,11 +92,20 @@ namespace Microsoft.Xna.Framework
                 Sdl.SetHint("SDL_WINDOWS_DISABLE_THREAD_NAMING", "1");
 
             Sdl.Init((int)(
-                Sdl.InitFlags.Video |
                 Sdl.InitFlags.Joystick |
                 Sdl.InitFlags.GameController |
                 Sdl.InitFlags.Haptic
             ));
+
+            if (game.PreferWayland)
+            {
+                if (Sdl.VideoInit("wayland") < 0)
+                    Sdl.VideoInit(null);
+            }
+            else
+            {
+                Sdl.VideoInit(null);
+            }
 
             Sdl.DisableScreenSaver();
 
@@ -436,6 +445,7 @@ namespace Microsoft.Xna.Framework
 
                 Joystick.CloseDevices();
 
+                Sdl.VideoQuit(); // Must be called manually when using Sdl.VideoInit.
                 Sdl.Quit();
             }
 
