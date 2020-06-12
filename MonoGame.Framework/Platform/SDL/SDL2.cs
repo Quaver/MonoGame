@@ -204,6 +204,15 @@ internal static class Sdl
     }
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate int d_sdl_videoinit(string driverName);
+    public static d_sdl_videoinit SDL_VideoInit = FuncLoader.LoadFunction<d_sdl_videoinit>(NativeLibrary, "SDL_VideoInit");
+
+    public static int VideoInit(string driverName)
+    {
+        return GetError(SDL_VideoInit(driverName));
+    }
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_sdl_disablescreensaver();
     public static d_sdl_disablescreensaver DisableScreenSaver = FuncLoader.LoadFunction<d_sdl_disablescreensaver>(NativeLibrary, "SDL_DisableScreenSaver");
 
@@ -290,6 +299,10 @@ internal static class Sdl
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     public delegate void d_sdl_quit();
     public static d_sdl_quit Quit = FuncLoader.LoadFunction<d_sdl_quit>(NativeLibrary, "SDL_Quit");
+
+    [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+    public delegate void d_sdl_videoquit();
+    public static d_sdl_videoquit VideoQuit = FuncLoader.LoadFunction<d_sdl_videoquit>(NativeLibrary, "SDL_VideoQuit");
 
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
     private delegate IntPtr d_sdl_rwfrommem(byte[] mem, int size);
