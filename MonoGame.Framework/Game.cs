@@ -74,9 +74,14 @@ namespace Microsoft.Xna.Framework
             }
         }
 
+        /// <summary>
+        ///     If set to true, try to initialize the Wayland SDL video platform first.
+        /// </summary>
+        internal bool PreferWayland { get; }
+
         partial void PlatformConstruct();
 
-        public Game()
+        public Game(bool preferWayland = false)
         {
             _instance = this;
 
@@ -85,6 +90,7 @@ namespace Microsoft.Xna.Framework
             _components = new GameComponentCollection();
             _content = new ContentManager(_services);
 
+            PreferWayland = preferWayland; // Needs to be set before PlatformCreate.
             Platform = GamePlatform.PlatformCreate(this);
             Platform.Activated += OnActivated;
             Platform.Deactivated += OnDeactivated;
